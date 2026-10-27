@@ -30,7 +30,7 @@ MOVIES = [
      "desc": "Earth's mightiest heroes assemble one last time to undo Thanos's snap."},
 
     {"title": "Forrest Gump",              "language": "English", "year": 1994, "rating": 8.8,
-     "genres": ["Drama", "Romance"],
+     "genres": ["Drama", "Romance", "Sport"],
      "desc": "A kind-hearted Alabama man witnesses and influences pivotal American historical events."},
 
     {"title": "The Shawshank Redemption",  "language": "English", "year": 1994, "rating": 9.3,
@@ -125,7 +125,7 @@ MOVIES = [
      "desc": "A jilted bride travels solo on her honeymoon and rediscovers herself."},
 
     {"title": "Andhadhun",                 "language": "Hindi", "year": 2018, "rating": 8.3,
-     "genres": ["Crime", "Thriller"],
+     "genres": ["Crime", "Music", "Mystery", "Thriller"],
      "desc": "A blind pianist stumbles into a murder and a deadly cat-and-mouse game of deception."},
 
     {"title": "Gangs of Wasseypur",        "language": "Hindi", "year": 2012, "rating": 8.3,
@@ -148,9 +148,9 @@ MOVIES = [
      "genres": ["Crime", "Drama", "Thriller"],
      "desc": "An IPS officer confronts deep-rooted caste discrimination while solving a brutal murder."},
 
-    {"title": "Kabir Singh",               "language": "Hindi", "year": 2019, "rating": 7.1,
-     "genres": ["Drama", "Romance"],
-     "desc": "A brilliant but self-destructive surgeon spirals after losing the woman he loves."},
+    {"title": "Tumbbad",                   "language": "Hindi", "year": 2018, "rating": 8.2,
+     "genres": ["Horror", "Mystery", "Thriller"],
+     "desc": "A man's obsessive quest for a mythological treasure leads him into a cursed ancestral womb."},
 
     # ═══════════════════════════════════════════════════════════════════════════
     # KANNADA (SANDALWOOD) MOVIES (15)
@@ -168,7 +168,7 @@ MOVIES = [
      "desc": "One coastal crime, five perspectives — each revealing a different layer of truth."},
 
     {"title": "Kirik Party",               "language": "Kannada", "year": 2016, "rating": 8.2,
-     "genres": ["Comedy", "Drama", "Romance"],
+     "genres": ["Comedy", "Drama", "Music", "Romance"],
      "desc": "A rowdy engineering student transforms through friendship and a strong-willed girl's influence."},
 
     {"title": "777 Charlie",               "language": "Kannada", "year": 2022, "rating": 8.7,
@@ -188,28 +188,28 @@ MOVIES = [
      "desc": "Three generations of a village family gather for a death anniversary with absurd results."},
 
     {"title": "Rangitaranga",              "language": "Kannada", "year": 2015, "rating": 8.2,
-     "genres": ["Mystery", "Thriller"],
+     "genres": ["Horror", "Mystery", "Thriller"],
      "desc": "A couple's documentary trip to a remote village turns into a supernatural nightmare."},
 
     {"title": "Godhi Banna Sadharana Mykattu","language": "Kannada", "year": 2016, "rating": 8.6,
      "genres": ["Drama"],
      "desc": "A son frantically searches Bangalore for his father, who has gone missing with Alzheimer's."},
 
-    {"title": "Tagaru",                    "language": "Kannada", "year": 2018, "rating": 7.8,
-     "genres": ["Action", "Crime", "Drama"],
-     "desc": "A no-nonsense encounter officer wages a brutal war against a dangerous Bangalore gangster."},
+    {"title": "Sangolli Rayanna",          "language": "Kannada", "year": 2012, "rating": 7.8,
+     "genres": ["Action", "Biography", "History"],
+     "desc": "The legendary freedom fighter of Kittur wages a fierce rebellion against the British."},
 
     {"title": "Avane Srimannarayana",      "language": "Kannada", "year": 2019, "rating": 7.6,
      "genres": ["Action", "Comedy", "Mystery"],
      "desc": "A lazy village constable accidentally stumbles upon a legendary hidden treasure."},
 
-    {"title": "Raajakumara",               "language": "Kannada", "year": 2017, "rating": 7.5,
-     "genres": ["Action", "Drama"],
-     "desc": "A man raised by foster parents uncovers his royal heritage and fights to reclaim his identity."},
+    {"title": "Pailwaan",                  "language": "Kannada", "year": 2019, "rating": 7.6,
+     "genres": ["Action", "Drama", "Sport"],
+     "desc": "A wrestler raised by a kind-hearted mentor battles corruption to reclaim his title."},
 
-    {"title": "Vikrant Rona",              "language": "Kannada", "year": 2022, "rating": 7.4,
-     "genres": ["Action", "Adventure", "Mystery"],
-     "desc": "A police officer investigates sinister disappearances in a fog-shrouded forest village."},
+    {"title": "Lucia",                     "language": "Kannada", "year": 2013, "rating": 8.3,
+     "genres": ["Mystery", "Sci-Fi", "Thriller"],
+     "desc": "A theatre usher's dreams blur with reality after he starts taking a mysterious pill."},
 
     {"title": "Dia",                       "language": "Kannada", "year": 2020, "rating": 8.1,
      "genres": ["Drama", "Romance", "Thriller"],
