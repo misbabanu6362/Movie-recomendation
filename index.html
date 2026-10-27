@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Genre Explorer</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #0b0b18;
+    color: #e0e0e0;
+    min-height: 100vh;
+    padding: 36px 16px 60px;
+  }
+
+  /* ── Header ── */
+  header { text-align: center; margin-bottom: 36px; }
+  header h1 {
+    font-size: 2.4rem;
+    background: linear-gradient(135deg, #7b2ff7, #f107a3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  header p { color: #666; margin-top: 6px; font-size: 0.95rem; }
+
+  /* ── Controls wrapper ── */
+  .controls {
+    max-width: 900px;
+    margin: 0 auto 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #555;
+    margin-bottom: 6px;
+  }
+
+  /* ── Genre tiles ── */
+  .genre-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .genre-tile {
+    padding: 9px 18px;
+    border-radius: 10px;
+    border: 1.5px solid #2a2a40;
+    background: #13132a;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .genre-tile:hover { border-color: #7b2ff7; color: #fff; }
+  .genre-tile.active { background: #7b2ff7; border-color: #7b2ff7; color: #fff; }
+
+  /* ── Language pills ── */
+  .lang-pills { display: flex; gap: 10px; flex-wrap: wrap; }
+  .lang-pill {
+    padding: 7px 20px;
+    border-radius: 24px;
+    border: 1.5px solid #2a2a40;
+    background: #13132a;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  .lang-pill:hover { border-color: #f107a3; color: #fff; }
+  .lang-pill.active { background: #f107a3; border-color: #f107a3; color: #fff; }
+
+  /* ── Results bar ── */
+  .results-bar {
+    max-width: 900px;
+    margin: 0 auto 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .results-bar h2 { font-size: 1rem; color: #888; letter-spacing: 0.5px; }
+  .results-bar span { font-size: 0.82rem; color: #555; }
+
+  /* ── Movie grid ── */
+  #grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 16px;
+  }
+
+  /* ── Movie card ── */
+  .movie-card {
+    background: #13132a;
+    border: 1.5px solid #1e1e3a;
+    border-radius: 14px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color 0.25s, transform 0.2s;
+    animation: pop 0.35s ease;
+  }
+  .movie-card:hover { border-color: #7b2ff7; transform: translateY(-3px); }
+  @keyframes pop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .card-title { font-size: 1rem; font-weight: 700; color: #fff; line-height: 1.3; }
+  .card-year  { font-size: 0.75rem; color: #555; white-space: nowrap; padding-top: 2px; }
+  .card-desc  { font-size: 0.82rem; color: #888; line-height: 1.5; }
+
+  .card-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+  .genre-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .gtag {
+    font-size: 0.68rem; font-weight: 600;
+    padding: 2px 8px; border-radius: 12px;
+    background: #1e1e3a; color: #aaa; border: 1px solid #2e2e50;
+  }
+  .rating {
+    font-size: 0.8rem; font-weight: 700;
+    color: #f5c518;
+    white-space: nowrap;
+  }
+  .lang-dot {
+    font-size: 0.68rem; font-weight: 700;
+    padding: 2px 9px; border-radius: 12px;
+  }
+  .lang-dot.English { background: #1a2a4a; color: #4a90e2; }
+  .lang-dot.Hindi   { background: #2a200a; color: #f5a623; }
+  .lang-dot.Kannada { background: #0a2010; color: #7ed321; }
+
+  /* ── Loader ── */
+  #loader {
+    display: none;
+    margin: 60px auto;
+    width: 40px; height: 40px;
+    border: 4px solid #1e1e3a;
+    border-top-color: #7b2ff7;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Empty state ── */
+  #empty {
+    display: none;
+    text-align: center;
+    margin: 60px auto;
+    color: #555;
+    font-size: 1rem;
+  }
+
+  @media (max-width: 500px) { header h1 { font-size: 1.8rem; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🎭 Genre Explorer</h1>
+  <p>Browse {{ total }} movies · English &bull; Hindi &bull; Kannada</p>
+</header>
+
+<div class="controls">
+
+  <!-- Genre Tiles -->
+  <div>
+    <div class="section-label">Browse by Genre</div>
+    <div class="genre-grid">
+      <div class="genre-tile active" data-genre="All">🌐 All</div>
+      {% for g in genres %}
+      <div class="genre-tile" data-genre="{{ g }}">
+        {{ {"Action":"⚔️","Adventure":"🗺️","Biography":"📖","Comedy":"😄","Crime":"🕵️",
+            "Drama":"🎭","History":"🏛️","Horror":"👻","Music":"🎵","Mystery":"🔍",
+            "Romance":"❤️","Sci-Fi":"🚀","Sport":"🏆","Thriller":"😱"}.get(g, "🎬") }} {{ g }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Language Pills -->
+  <div>
+    <div class="section-label">Filter by Language</div>
+    <div class="lang-pills">
+      <div class="lang-pill active" data-lang="All">🌐 All</div>
+      {% for lang in languages %}
+      <div class="lang-pill" data-lang="{{ lang }}">
+        {% if lang == "Hindi" %}🎭{% elif lang == "Kannada" %}🌿{% else %}🎥{% endif %} {{ lang }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+</div>
+
+<!-- Results bar -->
+<div class="results-bar">
+  <h2 id="resultsLabel">All Movies</h2>
+  <span id="countLabel"></span>
+</div>
+
+<!-- Loader -->
+<div id="loader"></div>
+<!-- Empty state -->
+<div id="empty">😕 No movies found for this combination. Try a different filter.</div>
+<!-- Movie grid -->
+<div id="grid"></div>
+
+<script>
+  let activeGenre = "All";
+  let activeLang  = "All";
+
+  const EMOJI = {
+    Action:"⚔️", Adventure:"🗺️", Biography:"📖", Comedy:"😄", Crime:"🕵️",
+    Drama:"🎭", History:"🏛️", Horror:"👻", Music:"🎵", Mystery:"🔍",
+    Romance:"❤️", "Sci-Fi":"🚀", Sport:"🏆", Thriller:"😱"
+  };
+
+  // ── Handle genre tile clicks ──────────────────────────────────────────────
+  document.querySelectorAll(".genre-tile").forEach(tile => {
+    tile.addEventListener("click", () => {
+      document.querySelectorAll(".genre-tile").forEach(t => t.classList.remove("active"));
+      tile.classList.add("active");
+      activeGenre = tile.dataset.genre;
+      fetchMovies();
+    });
+  });
+
+  // ── Handle language pill clicks ───────────────────────────────────────────
+  document.querySelectorAll(".lang-pill").forEach(pill => {
+    pill.addEventListener("click", () => {
+      document.querySelectorAll(".lang-pill").forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      activeLang = pill.dataset.lang;
+      fetchMovies();
+    });
+  });
+
+  // ── Fetch and render movies ───────────────────────────────────────────────
+  async function fetchMovies() {
+    const grid  = document.getElementById("grid");
+    const loader= document.getElementById("loader");
+    const empty = document.getElementById("empty");
+    const label = document.getElementById("resultsLabel");
+    const count = document.getElementById("countLabel");
+
+    grid.innerHTML = "";
+    empty.style.display = "none";
+    loader.style.display = "block";
+
+    const res  = await fetch("/browse", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ genre: activeGenre, language: activeLang })
+    });
+    const data = await res.json();
+    loader.style.display = "none";
+
+    // Update label
+    const genrePart = activeGenre === "All" ? "All Movies" : `${activeGenre} Movies`;
+    const langPart  = activeLang  === "All" ? "" : ` · ${activeLang}`;
+    label.textContent = genrePart + langPart;
+    count.textContent = data.count ? `${data.count} found · sorted by rating` : "";
+
+    if (!data.movies || data.movies.length === 0) {
+      empty.style.display = "block";
+      return;
+    }
+
+    data.movies.forEach(m => {
+      const stars = "★".repeat(Math.round(m.rating / 2)) + "☆".repeat(5 - Math.round(m.rating / 2));
+      const tags  = m.genres.map(g => `<span class="gtag">${EMOJI[g] || "🎬"} ${g}</span>`).join("");
+      const card  = document.createElement("div");
+      card.className = "movie-card";
+      card.innerHTML = `
+        <div class="card-top">
+          <div class="card-title">${m.title}</div>
+          <div class="card-year">${m.year}</div>
+        </div>
+        <div class="card-desc">${m.desc}</div>
+        <div class="card-footer">
+          <div class="genre-tags">${tags}</div>
+          <div style="display:flex;gap:6px;align-items:center;">
+            <span class="lang-dot ${m.language}">${m.language}</span>
+            <span class="rating">⭐ ${m.rating}</span>
+          </div>
+        </div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  // Load all movies on first visit
+  fetchMovies();
+</script>
+</body>
+</html>
